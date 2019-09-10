@@ -1,2 +1,32 @@
-# vagrant-k8s-aio
-Kubernetes AIO development environments
+# vagrant-k8s
+
+[![Build Status](https://travis-ci.com/dlux/vagrant-k8s-aio.svg?branch=master)](https://travis-ci.com/dlux/vagrant-k8s-aio)
+
+## Summary
+
+Project is a Kubernetes development environment
+Initial environment is created via kubeadm single master node and one worker
+
+## Environment
+
+- Vagrant
+- virtualbox
+
++----------+------------+---------------------------------------+
+| Name     | Role       |  Characteristics                      |
++----------+------------+---------------------------------------+
+| master   | k8s master | cpus:2, memory: 1024mb                |
++----------+------------+---------------------------------------+
+| worker01 | k8s worker | cpus:1, memory: 1024mb                |
++----------+------------+---------------------------------------+
+
+## To Run
+
+- Install vagrant and virtualbox
+
+    $ ./setup_localhost.sh -x http://proxy:port -p virtualbox
+
+- Deploy environment
+
+    $ vagrant up
+

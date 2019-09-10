@@ -1,0 +1,9 @@
+language: python
+install:
+  - pip install bashate
+  - pip install mdview
+script:
+  - bashate install_common.sh
+  - bashate master.sh
+  - bashate worker.sh
+
