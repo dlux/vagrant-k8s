@@ -1,6 +1,6 @@
 # vagrant-k8s
 
-[![Build Status](https://travis-ci.com/dlux/vagrant-k8s-aio.svg?branch=master)](https://travis-ci.com/dlux/vagrant-k8s-aio)
+[![Build Status](https://travis-ci.com/dlux/vagrant-k8s.svg?branch=master)](https://travis-ci.com/dlux/vagrant-k8s)
 
 ## Summary
 
