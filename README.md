@@ -13,10 +13,10 @@ Initial environment is created via kubeadm single master node and one worker
 - virtualbox
 
 
-| Name     | Role       |  Characteristics                      |
-|----------|------------|---------------------------------------|
-| master   | k8s master | cpus:2, memory: 1024mb                |
-| worker01 | k8s worker | cpus:1, memory: 1024mb                |
+| Name     | Role       |  Characteristics         |
+|----------|------------|--------------------------|
+| master   | k8s master | cpus:2, memory: 4Gb      |
+| worker01 | k8s worker | cpus:1, memory: 1Gb      |
 
 
 ## To Run
