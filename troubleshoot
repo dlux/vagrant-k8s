@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# In case of ssh issues to the master from vagrant
+
+vagrant halt master
+vagrant up master
+vagrant ssh master
+# On the master run
+# sudo swapoff -a
+# sudo setenforce 0
+

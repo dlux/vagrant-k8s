@@ -29,3 +29,7 @@ Initial environment is created via kubeadm single master node and one worker
 
     $ vagrant up
 
+## Troubleshooting
+
+- After initial setup if there are issues with the VM follow troubleshoot file
+

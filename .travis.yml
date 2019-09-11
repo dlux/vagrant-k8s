@@ -5,4 +5,5 @@ script:
   - bashate install_common.sh
   - bashate master.sh
   - bashate worker.sh
-
+  - bashate troubleshoot
+  - bashate reload
