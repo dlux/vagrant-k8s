@@ -5,7 +5,12 @@
 vagrant halt master
 vagrant up master
 vagrant ssh master
+
 # On the master run
 # sudo swapoff -a
 # sudo setenforce 0
+
+# Verify cluster status
+kubectl get nodes | grep -w Ready
+kubectl get pods -A
 

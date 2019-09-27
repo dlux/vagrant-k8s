@@ -11,10 +11,10 @@
 
 set -o xtrace
 
-pod_cidr='50.244.0.0/16'
+pod_cidr='150.244.0.0/16'
 
 # If proxy passed as parameter
-[[ -n "$1" ]] && x="-x $1" && http_proxy="$1"
+[[ -n "$1" ]] && x="-x $1"
 
 pushd /opt
 
@@ -23,24 +23,28 @@ curl $x -LO https://github.com/dlux/InstallScripts/raw/master/common_packages
 source common_packages
 [[ "$?" != '0' ]] && echo 'Unable to get function packages' && exit 1
 
-WriteLog "Installing K8S dependencies"
 EnsureRoot
-swapoff -a
 
-if [ -n "$http_proxy" ]; then
-    _DOMAIN="$_DOMAIN,50.244.0.0/16"
-    SetProxy "$http_proxy"
+if [ -n "$1" ]; then
+    WriteLog "Setting proxy for the system $1"
+    _DOMAIN="$_DOMAIN,$pod_cidr"
+    SetProxy "$1"
 fi
 
+WriteLog "Updating the system"
+swapoff -a
 UpdatePackageManager
-$_INSTALLER_CMD vim screen git
+$_INSTALLER_CMD vim screen tmux
+DisableFirewalld
+DisableSelinux
+yum install yum-utils device-mapper-persistent-data lvm2
 
 WriteLog "Installing Docker"
 InstallDocker
 [[ -n "$http_proxy" ]] && SetDockerProxy "$http_proxy"
 [[ -z $(command -v docker) ]] && PrintError 'Docker not installed'
 
-WriteLog 'Setup docker daemon with systemd'
+#WriteLog 'Setup docker daemon with systemd'
 cat > /etc/docker/daemon.json <<EOF
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
@@ -58,8 +62,8 @@ mkdir -p /etc/systemd/system/docker.service.d
 systemctl daemon-reload
 systemctl restart docker
 
-WriteLog 'Installing kubernetes'
-sudo bash -c 'cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+WriteLog 'Installing kubectl kubelet and kubeadm'
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
 baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
@@ -68,10 +72,9 @@ gpgcheck=1
 repo_gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 exclude=kube*
-EOF'
+EOF
 
-DisableFirewalld
-DisableSelinux
 yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-systemctl enable kubelet && systemctl start kubelet
+systemctl enable kubelet
+systemctl start kubelet
 
