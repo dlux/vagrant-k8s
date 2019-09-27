@@ -44,7 +44,7 @@ InstallDocker
 [[ -n "$http_proxy" ]] && SetDockerProxy "$http_proxy"
 [[ -z $(command -v docker) ]] && PrintError 'Docker not installed'
 
-#WriteLog 'Setup docker daemon with systemd'
+WriteLog 'Setup docker daemon with systemd'
 cat > /etc/docker/daemon.json <<EOF
 {
   "exec-opts": ["native.cgroupdriver=systemd"],

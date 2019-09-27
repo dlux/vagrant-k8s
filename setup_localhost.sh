@@ -16,22 +16,22 @@ _PROVIDER='libvirt'
 
 # If proxy passed as parameter
 while [[ ${1} ]]; do
-  case "$1" in
+    case "$1" in
     --proxy|-x)
-      [[ -z "${2}" || "${2}" == -* ]] && echo 'Missing proxy' && exit 1
-      x="-x $2"
-      _PROXY="$2"
-      shift ;;
+        [[ -z "${2}" || "${2}" == -* ]] && echo 'Missing proxy' && exit 1
+        x="-x $2"
+        _PROXY="$2"
+        shift ;;
     --provider|-p)
-      [[ -z "${2}" || "${2}" == -* ]] && echo 'Missing provider' && exit 1
-      _PROVIDER=$(echo "$2" |tr '[:upper:]' '[:lower:]')
-      shift ;;
+        [[ -z "${2}" || "${2}" == -* ]] && echo 'Missing provider' && exit 1
+        _PROVIDER=$(echo "$2" |tr '[:upper:]' '[:lower:]')
+        shift ;;
     *)
-      usage="Usage \n $(basename "$0"): "
-      echo -e "$usage [-x http://proxy:port] | [-p [virtualbox | libvirt] ]"
-      exit 0
-  esac
-  shift
+        usage="Usage \n $(basename "$0"): "
+        echo -e "$usage [-x http://proxy:port] | [-p [virtualbox | libvirt] ]"
+        exit 0
+    esac
+    shift
 done
 
 curl $x -LO https://github.com/dlux/InstallScripts/raw/master/common_functions

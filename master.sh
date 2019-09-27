@@ -38,7 +38,8 @@ cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 chown -R vagrant:vagrant /home/vagrant/.kube
 
 WriteLog '<-- Configuring Calico CNI'
-base="$(curl -s https://docs.projectcalico.org/latest | grep location | awk -F '"' '{print $2}')"
+calico_add='https://docs.projectcalico.org/latest'
+base="$(curl -s $calico_add | grep location | awk -F '"' '{print $2}')"
 kubectl apply -f ${base}manifests/calico.yaml
 sleep 15
 
