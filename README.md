@@ -15,8 +15,8 @@ Initial environment is created via kubeadm single master node and one worker
 
 | Name     | Role       |  Characteristics         |
 |----------|------------|--------------------------|
-| master   | k8s master | cpus:2, memory: 4Gb      |
-| worker01 | k8s worker | cpus:1, memory: 1Gb      |
+| master   | k8s master | cpus:4, memory: 4Gb      |
+| worker01 | k8s worker | cpus:1, memory: 2Gb      |
 
 
 ## To Run

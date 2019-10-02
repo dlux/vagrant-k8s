@@ -20,12 +20,15 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "master" do |master|
     master.vm.hostname = 'master'
-    master.vm.network "private_network", ip: '192.168.0.10'
+    # Make this network our main public network - 20.0.2.0/16
+    master.vm.network "private_network", ip: '20.0.2.15'
     master.vm.network :forwarded_port, guest: 6443, host: 6443
     master.vm.network :forwarded_port, guest: 8080, host: 8080
     config.vm.provider 'virtualbox' do |v|
       v.customize ['modifyvm', :id, '--memory', 1024 * 4]
-      v.customize ['modifyvm', :id, '--cpus', 2]
+      v.customize ['modifyvm', :id, '--cpus', 4]
+      # To ignore NAT IP - use a different subnet
+      v.customize ["modifyvm", :id, "--natnet1", "110.0.2.0/24"]
     end
 
     master.vm.provision "shell" do |s|
@@ -35,10 +38,12 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "worker" do |worker|
     worker.vm.hostname = 'worker01'
-    worker.vm.network "private_network", ip: '192.168.0.12'
+    worker.vm.network "private_network", ip: '20.0.2.16'
     config.vm.provider 'virtualbox' do |v|
       v.customize ['modifyvm', :id, '--memory', 1024 * 2]
       v.customize ['modifyvm', :id, '--cpus', 1]
+      # To ignore NAT IP - use a different subnet
+      v.customize ["modifyvm", :id, "--natnet1", "110.0.2.0/24"]
     end
     worker.vm.provision "shell" do |s|
       s.path = 'worker.sh'
